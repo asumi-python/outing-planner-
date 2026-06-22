@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>おでかけプランナー✨</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>✨ おでかけプランナー</h1>
+    <p class="subtitle">気分と条件を入れたら、AIがプランを提案します！</p>
+
+    <div class="card">
+
+      <div class="section">
+        <label>今日の気分は？</label>
+        <div class="mood-buttons">
+          <button class="mood-btn" data-mood="元気いっぱい！">⚡ 元気いっぱい</button>
+          <button class="mood-btn" data-mood="まったりしたい">☕ まったり</button>
+          <button class="mood-btn" data-mood="特別な日にしたい">🎉 特別な日</button>
+          <button class="mood-btn" data-mood="おしゃれを楽しみたい">👗 おしゃれしたい</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <label for="area">エリア</label>
+        <input type="text" id="area" placeholder="例：渋谷、新宿、地元など">
+      </div>
+
+      <div class="section">
+        <label for="budget">予算（おひとりさま）</label>
+        <select id="budget">
+          <option value="1000円以内">〜1,000円</option>
+          <option value="3000円以内">〜3,000円</option>
+          <option value="5000円以内">〜5,000円</option>
+          <option value="10000円以内">〜10,000円</option>
+          <option value="気にしない">気にしない</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <label for="people">人数</label>
+        <select id="people">
+          <option value="2人">2人</option>
+          <option value="3人">3人</option>
+          <option value="4人">4人</option>
+          <option value="5人以上">5人以上</option>
+        </select>
+      </div>
+
+      <button class="submit-btn" id="submitBtn" onclick="generatePlan()">
+        プランを提案してもらう 🎯
+      </button>
+
+    </div>
+
+    <div class="result-card" id="resultCard" style="display:none;">
+      <h2>🗺️ あなたへのプラン</h2>
+      <div id="resultText"></div>
+    </div>
+
+    <div class="loading" id="loading" style="display:none;">
+      <p>✨ AIがプランを考えています...</p>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
