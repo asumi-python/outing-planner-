@@ -75,6 +75,12 @@ async function generatePlan() {
 
     const data = await response.json();
     console.log("APIレスポンス:", data);
+    if (data.error) {
+      throw new Error(`APIエラー: ${data.error.message}`);
+    }
+    if (!data.candidates || data.candidates.length === 0) {
+      throw new Error(`candidatesが空です: ${JSON.stringify(data)}`);
+    }
     const parts = data.candidates[0].content.parts;
     console.log("parts:", parts);
     const textPart = parts.find(p => p.text && !p.thought) || parts[parts.length - 1];
@@ -87,7 +93,7 @@ async function generatePlan() {
 
   } catch (error) {
     console.error("エラー詳細:", error);
-    alert("エラーが発生しました。もう一度試してください。");
+    alert(`エラー: ${error.message}`);
   } finally {
     document.getElementById("loading").style.display = "none";
     document.getElementById("submitBtn").disabled = false;
