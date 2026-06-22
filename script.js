@@ -1,4 +1,4 @@
-const GEMINI_API_KEY = "AIzaSyChIiKqFZiffvVizCUYs3QsJ9bsZOMmgwE";
+const GEMINI_API_KEY = "AQ.Ab8RN6Lu7ZdheZIlWYmjUrgHUhYu90qTXo90zH6_wWF91kAA8g";
 
 let selectedMood = "";
 
