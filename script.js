@@ -1,8 +1,5 @@
-const GEMINI_API_KEY = "AIzaSyAmUEVuRBPlK16OcEjQ2xhZ6-4ag-oQvCo";
-
 let selectedMood = "";
 
-// 気分ボタンの選択
 document.querySelectorAll(".mood-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".mood-btn").forEach(b => b.classList.remove("selected"));
@@ -12,11 +9,9 @@ document.querySelectorAll(".mood-btn").forEach(btn => {
 });
 
 async function generatePlan() {
-  console.log("generatePlan 開始");
   const area = document.getElementById("area").value.trim();
   const budget = document.getElementById("budget").value;
   const people = document.getElementById("people").value;
-  console.log("気分:", selectedMood, "エリア:", area);
 
   if (!selectedMood) {
     alert("気分を選んでください！");
@@ -27,7 +22,6 @@ async function generatePlan() {
     return;
   }
 
-  // ローディング表示
   document.getElementById("loading").style.display = "block";
   document.getElementById("resultCard").style.display = "none";
   document.getElementById("submitBtn").disabled = true;
@@ -61,38 +55,24 @@ async function generatePlan() {
 `;
 
   try {
-    console.log("APIを呼び出し中...");
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }]
-        })
-      }
-    );
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
+    });
 
     const data = await response.json();
-    console.log("APIレスポンス:", data);
     if (data.error) {
       throw new Error(`APIエラー: ${data.error.message}`);
     }
-    if (!data.candidates || data.candidates.length === 0) {
-      throw new Error(`candidatesが空です: ${JSON.stringify(data)}`);
-    }
     const parts = data.candidates[0].content.parts;
-    console.log("parts:", parts);
     const textPart = parts.find(p => p.text && !p.thought) || parts[parts.length - 1];
-    console.log("textPart:", textPart);
     const text = textPart.text;
-    console.log("text:", text);
 
     document.getElementById("resultText").textContent = text;
     document.getElementById("resultCard").style.display = "block";
 
   } catch (error) {
-    console.error("エラー詳細:", error);
     alert(`エラー: ${error.message}`);
   } finally {
     document.getElementById("loading").style.display = "none";
